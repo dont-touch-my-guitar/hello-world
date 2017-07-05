@@ -4,7 +4,7 @@ import time
 
 query_dict = {
     "select_all" : "SELECT  * FROM new_schema.test_table",
-    "select_by_id" : "SELECT data FROM new_schema.test_table WHERE id = {0}",
+    "select_by_id" : "SELECT * FROM new_schema.test_table WHERE id = {0}",
     "insert_data" : 'INSERT INTO `new_schema`.`test_table`(`data`) VALUES ("{0}")'
 }
 

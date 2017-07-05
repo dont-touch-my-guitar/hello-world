@@ -25,12 +25,20 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
             retutn_list = s.selectByID(recordID)
             if retutn_list:
 
+                req = {
+                    'method': "sum_all",
+                    'data': retutn_list
+                }
 
+                import requests
+                resp = requests.post("http://127.0.0.1:8008/api/run", json=req)
+                print resp.status_code
+                print resp.text
 
                 self.send_response(200)
                 #self.send_header('Content-Type', 'application/json')
                 self.end_headers()
-                self.wfile.write(retutn_list)
+                self.wfile.write(resp.text)
             else:
                 self.send_response(400, 'Bad Request: record does not exist')
                 self.send_header('Content-Type', 'application/json')
@@ -74,12 +82,12 @@ class SimpleHttpServer():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='HTTP Server')
-    parser.add_argument('port', type=int, help='Listening port for HTTP Server')
-    parser.add_argument('ip', help='HTTP Server IP')
-    args = parser.parse_args()
+    # parser = argparse.ArgumentParser(description='HTTP Server')
+    # parser.add_argument('port', type=int, help='Listening port for HTTP Server')
+    # parser.add_argument('ip', help='HTTP Server IP')
+    # args = parser.parse_args()
 
-    server = SimpleHttpServer(args.ip, args.port)
+    server = SimpleHttpServer("127.0.0.1", 8009)
     print 'HTTP Server Running...........'
     server.start()
     server.waitForThread()
